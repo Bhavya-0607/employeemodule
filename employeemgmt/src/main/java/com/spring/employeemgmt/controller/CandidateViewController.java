@@ -3,11 +3,12 @@ package com.spring.employeemgmt.controller;
 
 import com.spring.employeemgmt.entity.CandidateView;
 import com.spring.employeemgmt.service.CandidateViewService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/candidate-views")
