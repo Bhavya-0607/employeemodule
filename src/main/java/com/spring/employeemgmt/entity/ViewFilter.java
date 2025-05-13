@@ -1,6 +1,9 @@
 package com.spring.employeemgmt.entity;
 
+import com.spring.employeemgmt.enums.FilterOperator;
+
 import jakarta.persistence.*;
+
 
 @Entity
 @Table(name = "view_filters")

@@ -4,7 +4,9 @@ package com.spring.employeemgmt.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
-import lombok.Builder;
+
+import com.spring.employeemgmt.enums.ViewPermissionType;
+
 
 @Entity
 @Table(name = "candidate_view")
@@ -60,6 +62,7 @@ public class CandidateView {
     @CollectionTable(name = "candidate_view_columns", joinColumns = @JoinColumn(name = "view_id"))
     @Column(name = "column_name")
     private List<String> selectedColumns;
+    
 
     // Additional filtering criteria
     @OneToMany(mappedBy = "candidateView", cascade = CascadeType.ALL, orphanRemoval = true)

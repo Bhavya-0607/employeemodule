@@ -1,13 +1,10 @@
 package com.spring.employeemgmt.entity;
 
-import jakarta.persistence.Entity;
-
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import org.springframework.security.core.userdetails.User;
-
-import jakarta.persistence.*;
+import com.spring.employeemgmt.enums.ViewPermissionType;
+import com.spring.employeemgmt.entity.Candidate;
 
 @Entity
 @Table(name = "custom_views")
@@ -22,14 +19,13 @@ public class CustomView {
     private boolean isDefault;
 
     @Enumerated(EnumType.STRING)
-    private ViewPermission viewPermission;
+    private ViewPermissionType viewPermission;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "custom_view_columns", joinColumns = @JoinColumn(name = "view_id"))
     @Column(name = "column_name")
     private List<String> selectedColumns;
 
-    // Sharing logic: if shared with specific departments/roles/users/locations
     @ElementCollection
     @CollectionTable(name = "custom_view_shared_departments", joinColumns = @JoinColumn(name = "view_id"))
     private List<String> sharedDepartments;
@@ -40,7 +36,7 @@ public class CustomView {
 
     @ElementCollection
     @CollectionTable(name = "custom_view_shared_users", joinColumns = @JoinColumn(name = "view_id"))
-    private List<Long> sharedUserIds; // userId of users shared with
+    private List<Long> sharedUserIds;
 
     @ElementCollection
     @CollectionTable(name = "custom_view_shared_locations", joinColumns = @JoinColumn(name = "view_id"))
@@ -48,13 +44,15 @@ public class CustomView {
 
     @ManyToOne
     @JoinColumn(name = "created_by")
-    private User createdBy;
+    private Candidate createdBy; // your custom User entity
 
     private LocalDateTime createdTime;
 
     @ManyToOne
     @JoinColumn(name = "modified_by")
-    private User modifiedBy;
+    private Candidate modifiedBy; // your custom User entity
 
     private LocalDateTime modifiedTime;
+
+    // Getters and setters...
 }

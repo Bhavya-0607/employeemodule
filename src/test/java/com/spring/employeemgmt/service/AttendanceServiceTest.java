@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 public class AttendanceServiceTest {
 
     @InjectMocks
-    private AttendanceService attendanceService; // ✅ Fixed: Inject mocks into the correct service
+    private AttendanceService attendanceService; 
 
     @Mock
     private AttendanceRepository attendanceRepository;
@@ -35,11 +35,11 @@ public class AttendanceServiceTest {
         MockitoAnnotations.openMocks(this);
 
         candidate = new Candidate();
-        candidate.setId(1L);
+        candidate.setCandidateId(1L);
 
         attendance = new Attendance();
         attendance.setId(1L);
-        attendance.setUser(candidate);
+        attendance.setCandidate(candidate);
         attendance.setCheckInTime(LocalDateTime.of(2023, 1, 1, 9, 0));
         attendance.setCheckOutTime(null);
         attendance.setTotalHoursWorked(0.0);
@@ -73,7 +73,7 @@ public class AttendanceServiceTest {
         Attendance result = attendanceService.checkIn(1L);
         assertNotNull(result);
         assertEquals(AttendanceStatus.PRESENT, result.getStatus());
-        assertEquals(candidate, result.getUser());
+        assertEquals(candidate, result.getCandidate());
     }
 
     @Test

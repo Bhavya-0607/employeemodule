@@ -1,20 +1,16 @@
 package com.spring.employeemgmt.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.spring.employeemgmt.enums.*;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.spring.employeemgmt.enums.Country;
-import com.spring.employeemgmt.enums.Department;
-import com.spring.employeemgmt.enums.HighestQualification;
-import com.spring.employeemgmt.enums.OnboardingStatus;
-import com.spring.employeemgmt.enums.SourceOfHire;
-import com.spring.employeemgmt.enums.State;
-import com.spring.employeemgmt.enums.Title;
 
 @Entity
 @Table(name = "candidates")
@@ -30,12 +26,16 @@ public class Candidate {
 
     private String firstName;
     private String lastName;
+
+    @Email
     private String emailId;
+
+    @Email
     private String officialEmail;
-    private Long id;
 
-
+    @Size(min = 10, max = 10)
     private String phone;
+
     @Lob
     private byte[] photo;
 
@@ -65,7 +65,6 @@ public class Candidate {
     private Country country;
 
     private String permanentAddress;
-
     private LocalDate tentativeJoiningDate;
 
     private String offerLetter;
@@ -74,7 +73,7 @@ public class Candidate {
     private String additionalInformation;
 
     private Double currentSalary;
-    private Integer experience; // In years
+    private Integer experience;
 
     @Enumerated(EnumType.STRING)
     private Title title;
@@ -82,18 +81,18 @@ public class Candidate {
     @Enumerated(EnumType.STRING)
     private HighestQualification highestQualification;
 
-    private String skillSet; // comma-separated or use @ElementCollection
+    private String skillSet;
 
     private String addedBy;
     private String modifiedBy;
-
     private LocalDateTime addedTime;
     private LocalDateTime modifiedTime;
 
     private String designation;
-    private String workSchedule; // Example: 9:00 AM - 6:00 PM
+    private String workSchedule;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "role_id")
     private Role role;
 
     @OneToOne(mappedBy = "candidate", cascade = CascadeType.ALL)
@@ -101,24 +100,28 @@ public class Candidate {
 
     @OneToMany(mappedBy = "candidate", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
+    @JsonIgnore
+    @ToString.Exclude
     private List<Attendance> attendances = new ArrayList<>();
 
     @OneToMany(mappedBy = "candidate", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
+    @JsonIgnore
+    @ToString.Exclude
     private List<LeaveRequest> leaveRequests = new ArrayList<>();
 
     @OneToMany(mappedBy = "candidate", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
+    @JsonIgnore
+    @ToString.Exclude
     private List<ProjectAssignment> projectAssignments = new ArrayList<>();
 
     @OneToMany(mappedBy = "candidate", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
+    @JsonIgnore
+    @ToString.Exclude
     private List<TimeLog> timeLogs = new ArrayList<>();
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-    
 }
+
+
 

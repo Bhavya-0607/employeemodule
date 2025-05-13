@@ -62,7 +62,7 @@ public class AttendanceService {
         }
 
         Attendance attendance = new Attendance();
-        attendance.setUser(candidate);
+        attendance.setCandidate(candidate);
         attendance.setCheckInTime(LocalDateTime.now());
         attendance.setStatus(AttendanceStatus.PRESENT);
         return attendanceRepository.save(attendance);
