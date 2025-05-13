@@ -2,14 +2,19 @@ package com.spring.employeemgmt.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import javax.tools.DocumentationTool.Location;
-import org.apache.catalina.User;
-import com.spring.employeemgmt.enums.Department;
+
+import javax.print.DocFlavor.STRING;
+
 import jakarta.persistence.*;
+
+import com.spring.employeemgmt.enums.Department;
+import com.spring.employeemgmt.enums.ViewPermissionType;
+import com.spring.employeemgmt.entity.Role;
+import com.spring.employeemgmt.entity.Candidate; // Replace with Candidate if no User entity
 
 @Entity
 @Table(name = "view_config")
-public class ViewConfig {
+public class ViewConfig<Location> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +23,7 @@ public class ViewConfig {
     private String viewName;
 
     @Enumerated(EnumType.STRING)
-    private ViewPermission permission;
+    private ViewPermissionType permission;
 
     private boolean defaultView;
 
@@ -27,16 +32,18 @@ public class ViewConfig {
     @Column(name = "column_name")
     private List<String> selectedColumns;
 
+    // Replace 'User' with 'Candidate' if needed
     @ManyToMany
     @JoinTable(name = "view_shared_users",
             joinColumns = @JoinColumn(name = "view_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> sharedToUsers;
+    private List<Candidate> sharedToUsers;
 
-    @ManyToMany
-    @JoinTable(name = "view_shared_departments",
-            joinColumns = @JoinColumn(name = "view_id"),
-            inverseJoinColumns = @JoinColumn(name = "department_id"))
+    // Department is an enum, not an entity
+    @ElementCollection
+    @CollectionTable(name = "view_shared_departments", joinColumns = @JoinColumn(name = "view_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "department")
     private List<Department> sharedToDepartments;
 
     @ManyToMany
@@ -45,19 +52,20 @@ public class ViewConfig {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> sharedToRoles;
 
-    @ManyToMany
-    @JoinTable(name = "view_shared_locations",
-            joinColumns = @JoinColumn(name = "view_id"),
-            inverseJoinColumns = @JoinColumn(name = "location_id"))
-    private List<Location> sharedToLocations;
+    @ElementCollection
+    @CollectionTable(name = "view_shared_locations", joinColumns = @JoinColumn(name = "view_id"))
+    @Column(name = "location_name")
+    private List<String> sharedToLocations;
 
-    // Auditing fields
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    public void setCreatedAt(LocalDateTime now) {
-        
-        throw new UnsupportedOperationException("Unimplemented method 'setCreatedAt'");
+
+    // Getters and setters (optional)
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
-    // createdBy, modifiedBy can be added if you track users
+    public void setModifiedAt(LocalDateTime modifiedAt) {
+        this.modifiedAt = modifiedAt;
+    }
 }

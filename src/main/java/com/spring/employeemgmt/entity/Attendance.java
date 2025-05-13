@@ -2,6 +2,7 @@ package com.spring.employeemgmt.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,9 +21,10 @@ public class Attendance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Linking attendance to Candidate entity
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private Candidate user;
+    @JoinColumn(name = "candidate_id", nullable = false)
+    private Candidate candidate;
 
     @Column(name = "check_in_time")
     private LocalDateTime checkInTime;
@@ -35,15 +37,9 @@ public class Attendance {
 
     private Double totalHoursWorked;
 
-    // Derived date from check-in (optional convenience method)
     public LocalDate getDate() {
         return (checkInTime != null) ? checkInTime.toLocalDate() : null;
     }
-  
-
-    public LocalDateTime getCheckInTime() { return checkInTime; }
-    public void setCheckInTime(LocalDateTime checkInTime) { this.checkInTime = checkInTime; }
-
 
     // Convenience method to auto-calculate total hours
     public void calculateTotalHoursWorked() {
