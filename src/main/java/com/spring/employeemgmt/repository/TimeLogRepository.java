@@ -8,5 +8,7 @@ import java.util.List;
 
 @Repository
 public interface TimeLogRepository extends JpaRepository<TimeLog, Long> {
-    List<TimeLog> findByUserId(Long userId);
+
+    // ✅ Corrected: use 'candidateId' instead of 'userId'
+    List<TimeLog> findByCandidateId(Long candidateId);
 }

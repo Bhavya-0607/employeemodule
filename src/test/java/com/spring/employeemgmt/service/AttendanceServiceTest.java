@@ -79,7 +79,7 @@ public class AttendanceServiceTest {
     @Test
     void testCheckOutSuccess() {
         when(candidateRepository.findById(1L)).thenReturn(Optional.of(candidate));
-        when(attendanceRepository.findTopByUserOrderByCheckInTimeDesc(candidate)).thenReturn(Optional.of(attendance));
+        when(attendanceRepository.findTopByCandidateOrderByCheckInTimeDesc(candidate)).thenReturn(Optional.of(attendance));
         when(attendanceRepository.save(any(Attendance.class))).thenAnswer(i -> i.getArgument(0));
 
         Attendance result = attendanceService.checkOut(1L);

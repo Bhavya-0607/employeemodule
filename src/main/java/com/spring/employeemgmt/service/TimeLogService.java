@@ -21,6 +21,11 @@ public class TimeLogService {
         return timeLogRepository.findAll();
     }
 
+    // Retrieve TimeLogs by Candidate ID
+    public List<TimeLog> getTimeLogsByCandidateId(Long candidateId) {
+        return timeLogRepository.findByCandidateId(candidateId);
+    }
+
     // Retrieve a specific TimeLog by its ID
     public TimeLog getTimeLogById(Long id) {
         return timeLogRepository.findById(id)
@@ -37,13 +42,14 @@ public class TimeLogService {
         TimeLog existingTimeLog = timeLogRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("TimeLog not found with id: " + id));
 
-        // Updating the TimeLog fields based on the provided object
+        // Updating TimeLog fields
         existingTimeLog.setCheckIn(timeLog.getCheckIn());
         existingTimeLog.setCheckOut(timeLog.getCheckOut());
         existingTimeLog.setRemarks(timeLog.getRemarks());
-        existingTimeLog.setUser(timeLog.getUser());  // Assuming user relation exists
+        existingTimeLog.setLogTime(timeLog.getLogTime());
+        existingTimeLog.setDescription(timeLog.getDescription());
+        existingTimeLog.setCandidate(timeLog.getCandidate());
 
-        // Save the updated TimeLog
         return timeLogRepository.save(existingTimeLog);
     }
 
@@ -55,4 +61,5 @@ public class TimeLogService {
         timeLogRepository.deleteById(id);
     }
 }
+
 

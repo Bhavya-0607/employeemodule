@@ -76,7 +76,7 @@ public class AttendanceService {
         }
 
         Optional<Attendance> optionalAttendance =
-                attendanceRepository.findTopByUserOrderByCheckInTimeDesc(candidate);
+                attendanceRepository.findTopByCandidateOrderByCheckInTimeDesc(candidate);
 
         if (optionalAttendance.isPresent()) {
             Attendance attendance = optionalAttendance.get();

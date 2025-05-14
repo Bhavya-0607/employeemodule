@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import com.spring.employeemgmt.enums.ViewPermissionType;
-import com.spring.employeemgmt.entity.Candidate;
 
 @Entity
 @Table(name = "custom_views")

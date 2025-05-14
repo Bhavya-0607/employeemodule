@@ -24,6 +24,15 @@ public class Candidate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long candidateId;
 
+    // ✅ Add getter and setter for 'id' to satisfy Spring Data
+    public Long getId() {
+        return candidateId;
+    }
+
+    public void setId(Long id) {
+        this.candidateId = id;
+    }
+
     private String firstName;
     private String lastName;
 
@@ -122,6 +131,3 @@ public class Candidate {
     @ToString.Exclude
     private List<TimeLog> timeLogs = new ArrayList<>();
 }
-
-
-
