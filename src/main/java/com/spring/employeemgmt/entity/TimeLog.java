@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class TimeLog {
 
     @Id
@@ -18,16 +19,15 @@ public class TimeLog {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private Candidate user;
+    @JoinColumn(name = "candidate_id", nullable = false)
+    private Candidate candidate;
 
-    @Column(name = "log_time")
+    @Column(name = "log_time", nullable = false)
     private LocalDateTime logTime;
 
     @Column(name = "description")
     private String description;
 
-    // ✅ Added missing fields
     @Column(name = "check_in")
     private LocalDateTime checkIn;
 
@@ -37,22 +37,9 @@ public class TimeLog {
     @Column(name = "remarks")
     private String remarks;
 
-    public TimeLog(Candidate user, LocalDateTime logTime, String description) {
-        this.user = user;
+    public TimeLog(Candidate candidate, LocalDateTime logTime, String description) {
+        this.candidate = candidate;
         this.logTime = logTime;
         this.description = description;
-    }
-
-    // Optionally remove these if using Lombok's @Getter
-    public LocalDateTime getCheckIn() {
-        return checkIn;
-    }
-
-    public LocalDateTime getCheckOut() {
-        return checkOut;
-    }
-
-    public String getRemarks() {
-        return remarks;
     }
 }
